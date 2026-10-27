@@ -1,6 +1,5 @@
-import { request } from "http";
 import framework from "./04d-framework.js";
-import { writeFile,readFile,unlink,rmdir } from "fs";
+import { writeFile,readFile,unlink } from "fs";
 
 const app = framework()
 const port = 8000
@@ -62,8 +61,8 @@ app.get('readFile',function(request,response){
 app.get('deleteFile',function(request,response){
             unlink(request[2],function(error){
                 if(error){
-                    response.writeHead(400);
-                    response.write("delete file error-file not found:",error );
+                    response.writeHead(404);
+                    response.write("delete file error-file not found:"+ error.message );
                     response.end();
                 }
                 else{
