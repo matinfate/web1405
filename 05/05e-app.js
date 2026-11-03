@@ -99,18 +99,19 @@ app.get("signup", function (request, response) {
             response.end();
         }
         else {
-            const users = JSON.parse(data)
+            const users = JSON.parse(data);
+            const clientData = JSON.parse(request.data);
 
             const newUser = {
-                username:request.query.username,
-                password:request.query.password,
+                username: clientData.username,
+                password: clientData.password,
             }
 
             users.push(newUser)
-            writeFile("db.json", JSON.stringify(users,null,2), function (error) {
+            writeFile("db.json", JSON.stringify(users, null, 2), function (error) {
                 if (error) {
                     response.writeHead(403);
-                    response.write("edit file error:", error);
+                    response.write("edit file error:" + error.message);
                     response.end();
                 }
                 else {
