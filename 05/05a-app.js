@@ -30,7 +30,7 @@ app.get('createFile', function (request, response) {
     writeFile(request[2], request[3], function (error) {
         if (error) {
             response.writeHead(403);
-            response.write("create file error:", error);
+            response.write("create file error:" + error);
             response.end();
         }
         else {
@@ -60,22 +60,29 @@ app.get('readFile', function (request, response) {
 
 app.get('delete', function (request, response) {
     unlink(request[2], function (error) {
-        if (error.code == "ENOENT") {
-            rmdir(request[2], function (err) {
-                if (err) {
-                    console.log(error)
-                    console.log(err)
-                    response.writeHead(404);
-                    response.write("delete directory error-directory not found:" + error.message);
-                    response.end();
+        if (error) {
+            if (error.code == "EPERM" || error.code === "EISDIR") {
+                rmdir(request[2], function (err) {
+                    if (err) {
+                        console.log(error)
+                        console.log(err)
+                        response.writeHead(404);
+                        response.write("delete directory error-directory not found:" + error.message);
+                        response.end();
+                    }
+                    else {
+                        response.writeHead(200);
+                        response.write("delete directory done");
+                        response.end();
+                    }
                 }
-                else {
-                    response.writeHead(200);
-                    response.write("delete directory done");
-                    response.end();
-                }
+                )
             }
-            )
+            else {
+                response.writeHead(404);
+                response.write("Error: " + error.message);
+                response.end();
+            }
         }
         else {
             response.writeHead(200);
