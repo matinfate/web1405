@@ -1,14 +1,16 @@
 {
   "data": [
     {
-      "id": 660020119,
-      "username": "MajduMammad",
-      "password": "12345678"
+      "id": 483561408,
+      "username": "ali",
+      "password": "12345678",
+      "type": "admin"
     },
     {
-      "id": 240889441,
-      "username": "ali",
-      "password": "12345678"
+      "id": 296222966,
+      "username": "mohammad",
+      "password": "12345678",
+      "type": "user"
     }
   ]
 }
